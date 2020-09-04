@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
 
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 import com.jayaprabahar.europeana.assignment.logic.SmallestDividableNumberCalculator;
@@ -28,14 +28,10 @@ public class ApplnLogicTest {
 	/**
 	 * Tests correctness of the output  
 	 */
-	@Test
+	@ParameterizedTest
 	@CsvFileSource(resources = "/test_data.csv", numLinesToSkip = 1)
-	public void testLCMWithinTheRange() {
-		SmallestDividableNumberCalculator calculator = new SmallestDividableNumberCalculator();
-		
-		for (int i = 1; i < 25; i++) {
-			assertEquals(BigInteger.valueOf(1), calculator.getSmallestDividableNumberWithinRange(1));
-		}
+	void testLCMWithinTheRange(int upperLimit, BigInteger result) {
+		assertEquals(result, new SmallestDividableNumberCalculator().getSmallestDividableNumberWithinRange(upperLimit));
 	}
 
 }

@@ -6,7 +6,7 @@ package com.jayaprabahar.europeana.assignment.performance;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -63,8 +63,8 @@ public class ApplnPerformanceTest {
 	public void givenMultiplePostAndGetApiCalls_thenPerformanceShouldBeGood() throws Exception {
 		Random randomNumber = new Random();
 		
-		// Try 50 calls
-		for (int i = 0; i < 10; i++) {
+		// Try 100 calls
+		for (int i = 0; i < 100; i++) {
 			int passedUpperLimit = randomNumber.ints(1, allowedMaxUpperLimit).findFirst().getAsInt();
 			HttpSession session = mockMvc.perform(post(API_URL)
 					.param("upperLimit", String.valueOf(passedUpperLimit)))
@@ -78,7 +78,7 @@ public class ApplnPerformanceTest {
 					.andExpect(jsonPath("$.timeTakenInMillis", isA(Integer.class)))
 					.andExpect(jsonPath("$.timeTakenInMillis", notNullValue())).andReturn();
 			
-			assertEquals(1, Integer.compare(allowedMaxTimeTaken, JsonPath.parse(response.getResponse().getContentAsString()).read("$.timeTakenInMillis")));
+			assertTrue(allowedMaxTimeTaken >= JsonPath.parse(response.getResponse().getContentAsString()).read("$.timeTakenInMillis", Integer.class));
 		}
 	}
 	

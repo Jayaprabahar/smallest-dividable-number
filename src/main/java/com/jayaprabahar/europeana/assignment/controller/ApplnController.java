@@ -90,8 +90,7 @@ public class ApplnController {
 		
 		log.info("Smallest Dividable Number within the positive number from 1 to {} is {}", maxNumber, result);
 
-		return Response.builder().upperLimit((int) maxNumber).smallestdividablenumber(applnService.getSmallestDividableNumberWithinRange((int) maxNumber))
-		        .timeTakenInMillis(System.currentTimeMillis() - startTime).build();
+		return Response.builder().upperLimit((int) maxNumber).smallestdividablenumber(result).timeTakenInMillis(System.currentTimeMillis() - startTime).build();
 	}
 
 }
